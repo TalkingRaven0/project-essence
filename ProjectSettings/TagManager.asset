@@ -14,8 +14,8 @@ TagManager:
   - Ground
   - Terrain
   - PlayerCollider
-  - 
-  - 
+  - EssenceCollider
+  - EssenceTrigger
   - 
   - 
   - 

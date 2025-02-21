@@ -8,11 +8,16 @@ public class PlayerMovement : MonoBehaviour
     [Inject] protected InputHandler inputHandler;
     [Inject] protected Camera mainCamera;
 
-    [SerializeField] private float moveSpeed;
+    [SerializeField] public float moveSpeed;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float deceleration;
 
     private Rigidbody playerRB;
 
     private Vector3 assignedVelocity;
+    public Vector3 AssignedVelocity => assignedVelocity;
+
+    private Vector3 appliedAcceleration;
 
     private void Start()
     {
@@ -21,12 +26,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleBasicMovement();
+        HandleAccelerationMovement();
+
+        assignedVelocity = appliedAcceleration;
 
         playerRB.velocity = assignedVelocity;
     }
 
-    private void HandleBasicMovement()
+    private void HandleAccelerationMovement()
     {
         Vector3 inputDirection = inputHandler.GetMoveInputRaw();
         Vector3 moveDirection = Vector3.zero;
@@ -40,7 +47,14 @@ public class PlayerMovement : MonoBehaviour
 
         // Normalize and apply movement
         moveDirection = moveDirection.normalized;
-        assignedVelocity = moveDirection * moveSpeed;
 
+        if(moveDirection == Vector3.zero)
+        {
+            appliedAcceleration -= deceleration * appliedAcceleration.normalized;
+        } else
+        {
+            appliedAcceleration += moveDirection * acceleration;
+        }
+        appliedAcceleration = Vector3.ClampMagnitude(appliedAcceleration, moveSpeed);
     }
 }
