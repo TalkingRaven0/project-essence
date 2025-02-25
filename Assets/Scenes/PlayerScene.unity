@@ -871,6 +871,7 @@ MonoBehaviour:
   mainCamera: {fileID: 330585545}
   inputHandler: {fileID: 931783991}
   playerMovement: {fileID: 1515714807}
+  universalPooler: {fileID: 1767060179}
 --- !u!114 &931783989
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30,12 +30,12 @@ public class InputHandler : MonoBehaviour
         if (GetMouseLeftClicked())
         {
             mouseLeftHeld = true;
-            mouseLeftHeldDuration = 0;
         }
 
         if (GetMouseLeftReleased())
         {
             mouseLeftHeld = false;
+            mouseLeftHeldDuration = 0;
         }
 
         if(mouseLeftHeld)
