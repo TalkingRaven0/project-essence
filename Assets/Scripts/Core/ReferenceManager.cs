@@ -11,6 +11,7 @@ public class ReferenceManager : MonoInstaller
     public PlayerMovement playerMovement;
 
     public GameObject universalPooler;
+    public ActivePoolables activePoolables;
 
     public override void InstallBindings()
     {
@@ -18,6 +19,7 @@ public class ReferenceManager : MonoInstaller
         Container.Bind<GameObject>().FromInstance(PlayerObject);
         Container.Bind<InputHandler>().FromInstance(inputHandler);
         Container.Bind<PlayerMovement>().FromInstance(playerMovement);
+        Container.Bind<ActivePoolables>().FromInstance(activePoolables);
 
         Container.Bind<EssencePooler>().FromInstance(universalPooler.GetComponentInChildren<EssencePooler>());
     }

@@ -1,10 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 public class BasePooler : MonoBehaviour
 {
+    /// <summary>
+    /// Populate List on validate but initialize parent on Awake()
+    /// </summary>
+
     [SerializeField] protected List<BasePoolable> poolables = new();
 
     private void OnValidate()
@@ -15,8 +17,16 @@ public class BasePooler : MonoBehaviour
 
         foreach (var item in childPoolables)
         {
-            item.InitializePoolable(this);
             RegisterAsPoolable(item);
+        }
+    }
+
+    private void Awake()
+    {
+        foreach (var item in poolables)
+        {
+            item.InitializePoolable(this);
+            item.gameObject.SetActive(false);
         }
     }
 
@@ -25,7 +35,7 @@ public class BasePooler : MonoBehaviour
         poolables.Add(poolable);
     }
 
-    public virtual void SpawnPoolable(Vector3 position)
+    public virtual void SpawnPoolable(Vector3 position, GameObject customParent = null, ISpawnData data = null)
     {
         if(poolables.Count < 1) 
         {
@@ -36,8 +46,10 @@ public class BasePooler : MonoBehaviour
         BasePoolable spawnedPoolable = poolables[0];
 
         spawnedPoolable.transform.position = position;
-        spawnedPoolable.OnSpawn();
+        spawnedPoolable.OnSpawn(customParent, data);
 
         poolables.Remove(spawnedPoolable);
     }
 }
+
+public interface ISpawnData { }
